@@ -5,18 +5,15 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../db.json');
 
-// Helper function to read database
 const readDB = () => {
   const data = fs.readFileSync(dbPath, 'utf8');
   return JSON.parse(data);
 };
 
-// Helper function to write to database
 const writeDB = (data) => {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 };
 
-// GET all todos
 router.get('/', (req, res) => {
   try {
     const db = readDB();
@@ -26,7 +23,6 @@ router.get('/', (req, res) => {
   }
 });
 
-// GET single todo by ID
 router.get('/:todoId', (req, res) => {
   try {
     const todoId = parseInt(req.params.todoId);
@@ -43,7 +39,6 @@ router.get('/:todoId', (req, res) => {
   }
 });
 
-// POST create new todo
 router.post('/add', (req, res) => {
   try {
     const db = readDB();
@@ -65,7 +60,6 @@ router.post('/add', (req, res) => {
   }
 });
 
-// PUT update todo
 router.put('/update/:todoId', (req, res) => {
   try {
     const todoId = parseInt(req.params.todoId);
@@ -79,7 +73,7 @@ router.put('/update/:todoId', (req, res) => {
     db.todos[todoIndex] = {
       ...db.todos[todoIndex],
       ...req.body,
-      id: todoId // Ensure ID doesn't change
+      id: todoId 
     };
     
     writeDB(db);
@@ -93,7 +87,6 @@ router.put('/update/:todoId', (req, res) => {
   }
 });
 
-// DELETE todo
 router.delete('/delete/:todoId', (req, res) => {
   try {
     const todoId = parseInt(req.params.todoId);

@@ -5,18 +5,15 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../db.json');
 
-// Helper function to read database
 const readDB = () => {
   const data = fs.readFileSync(dbPath, 'utf8');
   return JSON.parse(data);
 };
 
-// Helper function to write to database
 const writeDB = (data) => {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 };
 
-// GET all users
 router.get('/', (req, res) => {
   try {
     const db = readDB();
@@ -26,7 +23,6 @@ router.get('/', (req, res) => {
   }
 });
 
-// GET single user by ID
 router.get('/:userId', (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
@@ -43,7 +39,6 @@ router.get('/:userId', (req, res) => {
   }
 });
 
-// POST create new user
 router.post('/add', (req, res) => {
   try {
     const db = readDB();
@@ -64,7 +59,6 @@ router.post('/add', (req, res) => {
   }
 });
 
-// PUT update user
 router.put('/update/:userId', (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
@@ -78,7 +72,7 @@ router.put('/update/:userId', (req, res) => {
     db.users[userIndex] = {
       ...db.users[userIndex],
       ...req.body,
-      id: userId // Ensure ID doesn't change
+      id: userId 
     };
     
     writeDB(db);
@@ -92,7 +86,6 @@ router.put('/update/:userId', (req, res) => {
   }
 });
 
-// DELETE user
 router.delete('/delete/:userId', (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
