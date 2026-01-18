@@ -7,6 +7,10 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("E-commerce Orders & Analytics API is running");
+});
+
 const DB_PATH = path.join(__dirname, 'db.json');
 
 global.readDB = () => {
