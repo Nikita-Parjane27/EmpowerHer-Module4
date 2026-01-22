@@ -1,0 +1,32 @@
+CREATE TABLE students (
+  id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    age INTEGER CHECK (age > 0),
+    course TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+Output:
+ERROR: relation "students" already exists
+(Note: Table was already created earlier)
+
+SELECT * FROM students;
+
+Output:
+0 rows (before insert)
+
+INSERT INTO students (name, email, age, course)
+VALUES
+('Aarav Sharma', 'aarav.sharma@gmail.com', 21, 'Computer Science'),
+('Diya Patel', 'diya.patel@gmail.com', 19, 'Mechanical Engineering'),
+('Rohan Verma', 'rohan.verma@gmail.com', 22, 'Computer Science'),
+('Sneha Iyer', 'sneha.iyer@gmail.com', 20, 'Electronics'),
+('Kunal Mehta', 'kunal.mehta@gmail.com', 23, 'Civil Engineering');
+
+Output:
+INSERT 0 5
+
+SELECT * FROM students;
+
+Output:
+5 rows returned
