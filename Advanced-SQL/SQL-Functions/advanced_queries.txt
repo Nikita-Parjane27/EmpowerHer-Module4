@@ -1,0 +1,114 @@
+ADVANCED SQL QUERIES – SINGLE TABLE (students)
+
+## Query 1: Count the total number of students
+
+SELECT COUNT(*) AS total_students
+FROM students;
+
+Output:  5
+
+## Query 2: Find the average age of students
+
+SELECT AVG(age) AS average_age
+FROM students;
+
+Output: 21.000
+
+## Query 3: Find the minimum and maximum age
+
+SELECT
+MIN(age) AS minimum_age,
+MAX(age) AS maximum_age
+FROM students;
+
+Output:  minimum_age = 19 
+         maximum_age = 23
+
+## Query 4: Count how many students are enrolled in each course
+
+SELECT course, COUNT(*) AS student_count
+FROM students
+GROUP BY course;
+
+Output: Computer Science = 2
+        Mechanical = 1
+        Electronics = 1
+        Civil Engineering = 1
+
+## Query 5: Count students whose age is greater than 20
+
+SELECT COUNT(*) AS students_above_20
+FROM students
+WHERE age > 20;
+
+Output: students_above_20 = 3
+
+## Query 6: Display course-wise student count
+
+SELECT course, COUNT(*) AS student_count
+FROM students
+GROUP BY course;
+
+Output: Computer Science = 2
+        Mechanical = 1
+        Electronics = 1
+        Civil Engineering = 1
+
+## Query 7: Display only courses where student count is greater than 1
+
+SELECT course, COUNT(*) AS student_count
+FROM students
+GROUP BY course
+HAVING COUNT(*) > 1;
+
+Output: Compouter Science = 2
+
+
+## Query 8: Display courses sorted by highest student count first
+
+SELECT course, COUNT(*) AS student_count
+FROM students
+GROUP BY course
+ORDER BY student_count DESC;
+
+Output: Computer Science = 2
+        Mechanical = 1
+        Electronics = 1
+        Civil Engineering = 1
+
+## Query 9: Fetch the latest 3 students based on created_at
+
+SELECT *
+FROM students
+ORDER BY created_at DESC
+LIMIT 3;
+
+Output:  
+id  name            email                    age     course              created_at
+1   Aarav Sharma   aarav.sharma@gmail.com    21    Compouter Science    22-01-2026 17:16:44 042024
+2   Diya Patel     diya.patel@gmail.com      19    Mechanical           22-01-2026 17:16:44 042024
+3   Rohan Verma    rohan.verma@gmail.com     22    Compouter Science    22-01-2026 17:16:44 042024
+
+## Query 10: Fetch the top 5 oldest students
+
+SELECT *
+FROM students
+ORDER BY age DESC
+LIMIT 5;
+
+Output:
+id  name            email                    age     course              created_at
+5   Kunal Mehta    kunal.mehta@gmail.com     23    Civil Engineering    22-01-2026 17:16:44 042024
+3   Rohan Verma    rohan.verma@gmail.com     22    Compouter Science    22-01-2026 17:16:44 042024
+1   Aarav Sharma   aarav.sharma@gmail.com    21    Compouter Science    22-01-2026 17:16:44 042024
+4   Sneha Iyer     sneha.iyer@gmail.com      20    Electronics          22-01-2026 17:16:44 042024
+2   Diya Patel     diya.patel@gmail.com      19    Mechanical           22-01-2026 17:16:44 042024
+
+## Query 11: Fetch students enrolled in a specific course, sorted by age (descending)
+
+SELECT *
+FROM students
+WHERE course = 'Full Stack Development'
+ORDER BY age DESC;
+
+Output: Success. no rows returned
