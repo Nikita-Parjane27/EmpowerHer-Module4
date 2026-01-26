@@ -1,0 +1,90 @@
+STEP 1: CREATE TABLES WITH RELATIONSHIPS
+
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE RESTRICT
+);
+
+STEP 2: INSERT DATA
+
+INSERT INTO users (name, email)
+VALUES
+('Alice', 'alice@gmail.com'),
+('Bob', 'bob@gmail.com'),
+('Charlie', 'charlie@gmail.com'),
+('Diana', 'diana@gmail.com'),
+('Ethan', 'ethan@gmail.com');
+
+INSERT INTO orders (user_id, amount, status)
+VALUES
+(1, 500, 'PLACED'),
+(1, 1200, 'SHIPPED'),
+(1, 300, 'DELIVERED'),
+(2, 700, 'PLACED'),
+(2, 900, 'CANCELLED'),
+(3, 1500, 'DELIVERED'),
+(4, 400, 'PLACED'),
+(4, 800, 'SHIPPED'),
+(5, 1000, 'DELIVERED');
+
+STEP 3: READ DATA
+
+SELECT * FROM users;
+SELECT * FROM orders;
+
+SELECT * FROM orders WHERE user_id = 1;
+
+SELECT u.id, u.name, COUNT(o.id) AS total_orders
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name
+HAVING COUNT(o.id) > 1;
+
+SELECT u.id, u.name, SUM(o.amount) AS total_amount
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name;
+
+STEP 4: UPDATE DATA
+
+UPDATE users
+SET email = 'alice_new@gmail.com'
+WHERE id = 1;
+
+UPDATE orders
+SET status = 'REFUNDED'
+WHERE user_id = 2;
+
+UPDATE orders
+SET amount = 350
+WHERE id = 3;
+
+STEP 5: DELETE DATA
+
+DELETE FROM orders WHERE id = 9;
+DELETE FROM orders WHERE user_id = 4;
+
+DELETE FROM users WHERE id = 1;
+
+STEP 6: CONCEPTUAL ANSWER
+
+-- Orders should not be stored in the users table because one user can have many orders.
+-- Storing orders in users breaks normalization, causes redundancy, and makes updates difficult.
+-- Separate tables with foreign keys maintain data integrity and scalability.
